@@ -1,0 +1,75 @@
+{{!
+    @template theme_cmagistratura/navbar
+    Two-row header: Logo area + Navigation bar.
+}}
+<div class="fixed-top header-container shadow-sm">
+    {{! Single Row Header }}
+    <nav class="navbar navbar-expand navbar-dark align-items-center justify-content-between py-0 px-4 secondary-row" style="background-color: var(--cm-blue-dark, #1F3C90); height: 72px;">
+         
+         <div class="d-flex align-items-center">
+            <!-- Fixed Left Sidebar, no toggle button needed -->
+
+            {{! Logo inside the blue header }}
+            <a href="{{{ config.homeurl }}}" class="navbar-brand d-flex align-items-center m-0 p-0 aabtn">
+                {{# output.should_display_logo }}
+                    <img src="{{output.get_logo}}" class="logo" alt="{{sitename}}" style="height: 52px; width: auto; margin-right: 15px;">
+                {{/ output.should_display_logo }}
+                {{^ output.should_display_logo }}
+                    <span class="site-name h5 mb-0 text-white font-weight-bold">{{{ sitename }}}</span>
+                {{/ output.should_display_logo }}
+            </a>
+
+            {{! Search Bar - Integrated in the same row }}
+             <div class="ml-4 d-none d-lg-block">
+                <form action="{{{ config.wwwroot }}}/course/search.php" method="get">
+                    <div class="input-group input-group-sm" style="width: 280px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                        <input type="text" name="search" class="form-control border-0 bg-transparent text-white placeholder-white" placeholder="Buscar cursos o archivos..." style="color: white !important;">
+                        <div class="input-group-append">
+                            <button class="btn border-0 text-white" type="submit">
+                                {{#pix}} i/search, core, search {{/pix}}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+             </div>
+         </div>
+
+         {{! Right Side: Navigation & User Menu }}
+         <div id="usernavigation" class="navbar-nav ml-auto d-flex align-items-center">
+             
+             {{! Custom Links: Desktop only }}
+             <div class="d-none d-md-flex align-items-center mr-3">
+                 <a class="nav-link text-white font-weight-bold mr-3" href="{{{ config.wwwroot }}}/my/">
+                     {{#str}}myhome, core{{/str}}
+                 </a>
+                 <a class="nav-link text-white font-weight-bold mr-3" href="{{{ config.wwwroot }}}/my/courses.php">
+                     {{#str}}mycourses{{/str}}
+                 </a>
+                 <a class="nav-link text-white font-weight-bold" href="{{{ config.wwwroot }}}/calendar/view.php">
+                     {{#str}}calendar, core_calendar{{/str}}
+                 </a>
+             </div>
+
+             {{{ output.edit_switch }}}
+             {{{ output.navbar_plugin_output }}}
+             
+             {{! User Menu (Notifications, Messages, Profile) }}
+             <div class="d-flex align-items-stretch usermenu-container ml-2" data-region="usermenu">
+                 {{#usermenu}}
+                     {{> core/user_menu }}
+                 {{/usermenu}}
+             </div>
+         </div>
+    </nav>
+</div>
+
+{{! 3. Secondary Navigation (Contextual Tabs) - Pushed down by CSS }}
+{{#secondarymoremenu}}
+    <div class="secondary-navigation d-print-none border-bottom">
+        <div class="container-fluid">
+            {{> core/moremenu}}
+        </div>
+    </div>
+{{/secondarymoremenu}}
+
+{{> theme_moove/primary-drawer-mobile }}

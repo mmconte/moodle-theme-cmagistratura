@@ -1,0 +1,584 @@
+/* Post SCSS for theme_cmagistratura */
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap');
+
+// ====================================================================================================
+// 0. VARIABLES
+// ====================================================================================================
+$cm-blue-primary: #1770cf; // Brand primary color
+$cm-blue-dark: #1a365d; // Darker blue for headers and certain badges
+$cm-cyan: #4DB8D8; // Accent cyan
+$cm-grey: #727276; // Body text grey
+$cm-grey-light: #f5f5f5; // Backgrounds
+$white: #fff;
+
+$primary: $cm-blue-primary;
+$font-family-sans-serif: 'Public Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+// Course Category Colors
+$cm-cat-penal: #1a365d;
+$cm-cat-civil: #8B4513;
+$cm-cat-laboral: #2d6a4f;
+$cm-cat-admin: #6b7280;
+$cm-cat-gold: #d4a017;
+
+// ====================================================================================================
+// 1. TYPOGRAPHY
+// ====================================================================================================
+body {
+    font-family: $font-family-sans-serif !important;
+    font-weight: 400;
+    background-color: $cm-grey-light;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 300 !important; // Lighter headings
+}
+
+// ====================================================================================================
+// 2. HEADER / NAVBAR
+// ====================================================================================================
+.header-container {
+    background-color: $cm-blue-primary !important;
+    z-index: 1060 !important;
+    position: fixed !important;
+    width: 100% !important;
+    top: 0 !important;
+}
+
+.secondary-row {
+    background-color: $cm-blue-primary !important;
+}
+
+.navbar.secondary-row {
+    height: 72px !important;
+}
+
+.logo {
+    height: 52px !important;
+    width: auto !important;
+}
+
+.nav-link.text-white {
+    font-weight: 400 !important;
+    font-size: 0.85rem !important;
+    letter-spacing: 0.02em;
+    opacity: 0.9;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+        opacity: 1 !important;
+    }
+}
+
+// Secondary Navigation
+.secondary-navigation {
+    margin-top: 72px !important;
+    background-color: $white !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+    z-index: 1050 !important;
+    position: relative;
+}
+
+// ====================================================================================================
+// 3. SIDEBAR / DRAWER (Force Fixed on Desktop)
+// ====================================================================================================
+@media (min-width: 992px) {
+
+    .drawer-left,
+    #theme_moove-drawers-primary {
+        position: fixed !important;
+        left: 0 !important;
+        top: 72px !important;
+        width: 280px !important;
+        height: calc(100vh - 72px) !important;
+        visibility: visible !important;
+        transform: none !important;
+        background-color: #fcfcfc !important;
+        box-shadow: none !important;
+        border-right: 1px solid rgba(0, 0, 0, 0.05);
+        z-index: 1040 !important;
+        display: block !important;
+        opacity: 1 !important;
+        transition: none !important;
+
+        .drawerheader {
+            display: none !important;
+        }
+
+        .drawercontent {
+            padding: 16px 0 !important;
+        }
+
+        .list-group-item {
+            border: none !important;
+            padding: 8px 16px !important;
+            font-weight: 300 !important;
+            font-size: 0.85rem !important;
+            color: #444 !important;
+            display: flex !important;
+            align-items: center !important;
+            border-radius: 6px !important;
+            margin: 2px 12px !important;
+            transition: all 0.2s ease;
+            background: transparent !important;
+
+            &:before {
+                font-family: "FontAwesome" !important;
+                font-weight: 400 !important;
+                margin-right: 12px !important;
+                font-size: 1rem !important;
+                width: 20px !important;
+                text-align: center !important;
+                opacity: 0.7 !important;
+            }
+
+            // Icon assignments based on href
+            &[href*="/?redirect=0"]:before {
+                content: "\f015";
+            }
+
+            &[href*="/my/"]:not([href*="courses"]):before {
+                content: "\f0e4";
+            }
+
+            &[href*="courses"]:before {
+                content: "\f02d";
+            }
+
+            &[href*="/calendar/"]:before {
+                content: "\f073";
+            }
+
+            &[href*="/user/files.php"]:before {
+                content: "\f07b";
+            }
+
+            &[href*="/admin/"]:before {
+                content: "\f0ad";
+            }
+
+            &:hover,
+            &.active {
+                background-color: rgba($primary, 0.05) !important;
+                color: $primary !important;
+                text-decoration: none !important;
+
+                &:before {
+                    opacity: 1 !important;
+                }
+            }
+        }
+    }
+
+    // Hide all drawer toggles (hamburgers)
+    .drawer-toggler,
+    [data-target="theme_moove-drawers-primary"],
+    [data-region="drawer-toggle"],
+    .navbar-toggler {
+        display: none !important;
+    }
+
+    // ====================================================================================================
+    // 4. MAIN CONTENT LAYOUT (Offset for sidebar)
+    // ====================================================================================================
+    // Force the main page container to shift right so it doesn't overlap the fixed sidebar
+    #page,
+    #page.drawers,
+    body:not(.path-admin) #page {
+        margin-left: 280px !important;
+        padding-top: 0;
+        width: calc(100% - 280px) !important;
+        display: block !important;
+    }
+}
+
+#topofscroll,
+#page-content,
+.main-inner,
+#region-main-box,
+#region-main {
+    width: 100% !important;
+    max-width: 1100px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+
+    @media (min-width: 992px) {
+        max-width: 1600px !important;
+        margin-left: 2rem !important;
+        margin-right: 2rem !important;
+    }
+}
+
+// ====================================================================================================
+// 5. COURSE CARDS TITLE SIZE
+// ====================================================================================================
+
+.dashboard-card .card-body .coursename,
+.dashboard-card .card-body .card-title {
+    font-size: 0.95rem !important;
+    line-height: 1.3 !important;
+}
+
+// ====================================================================================================
+// 6. PAGE HEADER CENTERING
+// ====================================================================================================
+.page-header-headings h2,
+.page-header-headings h1 {
+    text-align: center !important;
+    font-weight: 300 !important;
+    color: $primary !important;
+}
+
+#page-header {
+    .d-sm-flex.align-items-center {
+        justify-content: center !important;
+        text-align: center;
+        flex-direction: column !important;
+
+        .mr-auto,
+        .ml-auto {
+            margin: 10px auto !important;
+            flex: none !important;
+        }
+    }
+
+    .page-context-header {
+        text-align: center !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+// Frontpage title centering
+.frontpage-course-list-enrolled .heading,
+.course-search-result h2 {
+    text-align: center !important;
+    width: 100% !important;
+}
+
+// ====================================================================================================
+// 6. COURSE CARDS (Unified styling)
+// ====================================================================================================
+.dashboard-card,
+.coursebox,
+.coc-course-item,
+.frontpage-course-list-enrolled .coursebox,
+.course-search-result .coursebox {
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    border-radius: 1rem !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    background-color: $white;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+
+    &:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+        .card-img,
+        .course-image,
+        .content img {
+            transform: scale(1.05);
+        }
+    }
+
+    // Badge styling
+    .badge {
+        font-size: 0.7rem !important;
+        backdrop-filter: blur(4px);
+
+        // Default color if no match
+        &[class*="badge-category-"] {
+            background-color: rgba($primary, 0.85) !important;
+        }
+
+        &.badge-category-Penal,
+        &.badge-category-Penal\ I,
+        &.badge-category-Área\ Penal {
+            background-color: rgba($cm-cat-penal, 0.9) !important;
+        }
+
+        &.badge-category-Civil,
+        &.badge-category-Área\ Civil {
+            background-color: rgba($cm-cat-civil, 0.9) !important;
+        }
+
+        &.badge-category-Laboral,
+        &.badge-category-Área\ Laboral {
+            background-color: rgba($cm-cat-laboral, 0.9) !important;
+        }
+
+        &.badge-category-Administrativo,
+        &.badge-category-Administración {
+            background-color: rgba($cm-cat-admin, 0.9) !important;
+        }
+
+        &.badge-category-Ética,
+        &.badge-category-Formación\ Continua {
+            background-color: rgba($cm-cat-gold, 0.9) !important;
+        }
+    }
+
+    // Site Home Coursebox specific overrides to match Dashboard
+    &.coursebox {
+        padding: 0 !important;
+
+        .content {
+            padding: 1.5rem !important;
+
+            .courseimage img {
+                width: 100%;
+                height: 176px;
+                object-fit: cover;
+                border-radius: 1rem 1rem 0 0;
+            }
+        }
+
+        .info {
+            .name {
+                font-size: 1.125rem;
+                font-weight: 700;
+                padding: 1rem 1.5rem 0.5rem;
+
+                a {
+                    color: #0f172a;
+                }
+            }
+        }
+    }
+}
+
+// Card images
+.card-img,
+.course-image {
+    height: 176px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+// ====================================================================================================
+// 7. FOOTER
+// ====================================================================================================
+.page-footer,
+#page-footer {
+    background-color: #0f172a !important;
+    color: #94a3b8 !important;
+    font-size: 0.85rem !important;
+    padding: 2rem 0 !important;
+
+    a {
+        color: #cbd5e1 !important;
+
+        &:hover {
+            color: $white !important;
+        }
+    }
+
+    .footer-main-content {
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+}
+
+// ====================================================================================================
+// 8. ACCESSIBILITY BAR
+// ====================================================================================================
+.acessibilitybar {
+    background-color: #f1f5f9 !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+    padding: 4px 16px !important;
+    font-size: 0.75rem !important;
+}
+
+// ====================================================================================================
+// 9. BUTTONS & LINKS
+// ====================================================================================================
+.btn-primary {
+    background-color: $primary !important;
+    border-color: $primary !important;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background-color: darken($primary, 8%) !important;
+        transform: translateY(-1px);
+    }
+}
+
+a {
+    color: $primary;
+    transition: color 0.2s ease;
+}
+
+// ====================================================================================================
+// 10. MISCELLANEOUS
+// ====================================================================================================
+// Smooth transitions for page elements
+.main-inner {
+    transition: margin 0.3s ease;
+}
+
+// Breadcrumb styling
+.breadcrumb {
+    background: transparent !important;
+    padding: 0.5rem 0 !important;
+    font-size: 0.8rem !important;
+}
+
+// ====================================================================================================
+// 11. LOGIN PAGE SPECIFIC
+// ====================================================================================================
+.pagelayout-login {
+    background-color: $cm-grey-light;
+
+    // Login header is white in the mockups
+    .header-container,
+    .secondary-row {
+        background-color: $white !important;
+    }
+
+    .header-container .site-name,
+    .header-container .nav-link {
+        color: $primary !important;
+    }
+
+    #page {
+        margin-left: 0 !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: calc(100vh - 72px - 200px); // Full height minus header/footer
+        padding-top: 100px;
+    }
+
+    // Centered Login Box
+    .login-wrapper {
+        width: 100%;
+        max-width: 480px;
+        margin: 0 auto;
+
+        .login-container {
+            background: $white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+
+            // The top blue banner mimicking the logo block
+            .login-header-banner {
+                background-color: $cm-blue-dark;
+                color: $white;
+                text-align: center;
+                padding: 30px 20px;
+
+                img {
+                    max-width: 140px;
+                    margin-bottom: 15px;
+                }
+
+                h2 {
+                    color: $white !important;
+                    font-size: 1.2rem;
+                    font-weight: 600 !important;
+                    margin: 0;
+                }
+
+                p {
+                    font-size: 0.8rem;
+                    opacity: 0.8;
+                    margin: 0;
+                }
+            }
+
+            // Form body
+            .login-form-body {
+                padding: 30px 40px;
+
+                .login-heading {
+                    font-size: 1.1rem;
+                    font-weight: 600;
+                    margin-bottom: 5px;
+                    color: #333;
+                }
+
+                .login-subheading {
+                    font-size: 0.8rem;
+                    color: #666;
+                    margin-bottom: 25px;
+                }
+
+                input.form-control {
+                    background-color: #f8f9fa;
+                    border: 1px solid #e0e0e0;
+                    border-radius: 6px;
+                    padding: 10px 15px;
+                    margin-bottom: 15px;
+                }
+
+                .btn-primary {
+                    width: 100%;
+                    padding: 12px;
+                    font-size: 0.95rem;
+                    margin-top: 10px;
+                }
+
+                .btn-secondary {
+                    width: 100%;
+                    padding: 10px;
+                    font-size: 0.9rem;
+                    background-color: #f0f2f5;
+                    border: none;
+                    color: #444;
+                    margin-top: 15px;
+                    border-radius: 6px;
+
+                    &:hover {
+                        background-color: #e4e6e9;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// ====================================================================================================
+// 7. DASHBOARD HIGH-SPECIFICITY OVERRIDES (Force expand width and 4-column grid)
+// ====================================================================================================
+body.path-my {
+    @media (min-width: 992px) {
+
+        #page.drawers #topofscroll.main-inner,
+        #page.drawers #page-content,
+        #page.drawers #region-main-box,
+        #page.drawers #region-main {
+            max-width: none !important;
+            width: auto !important;
+            margin-left: 2rem !important;
+            margin-right: 2rem !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+
+        #page.drawers .dashboard-card-deck:not(.fixed-width-cards) {
+            display: grid !important;
+            grid-template-columns: repeat(4, 1fr) !important;
+            grid-gap: 1.5rem !important;
+        }
+
+        #page.drawers .dashboard-card-deck:not(.fixed-width-cards) .dashboard-card {
+            width: 100% !important;
+            max-width: none !important;
+            margin: 0 !important;
+            flex: none !important;
+        }
+    }
+}

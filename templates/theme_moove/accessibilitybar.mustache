@@ -1,0 +1,35 @@
+{{!
+    @template theme_cmagistratura/accessibilitybar
+
+    Accessibility toolbar template.
+    Refactored to avoid fixed positioning overlap.
+}}
+<div id="accessibilitybar" class="d-print-none">
+    <div class="container-fluid">
+        <div class="bars d-flex justify-content-end align-items-center">
+            <div class="fontsize mr-3">
+                <span class="mr-2">{{#str}}accessibility:fontsize, theme_moove{{/str}}</span>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-sm btn-outline-light" data-action="decrease" title="{{#str}}accessibility:decreasefont, theme_moove{{/str}}" id="fontsize_dec">A-</button>
+                    <button type="button" class="btn btn-sm btn-outline-light" data-action="reset" title="{{#str}}accessibility:resetfont, theme_moove{{/str}}" id="fontsize_reset">A</button>
+                    <button type="button" class="btn btn-sm btn-outline-light" data-action="increase" title="{{#str}}accessibility:increasefont, theme_moove{{/str}}" id="fontsize_inc">A+</button>
+                </div>
+            </div>
+            <div class="sitecolor">
+                <span class="mr-2">{{#str}}accessibility:sitecolor, theme_moove{{/str}}</span>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-sm btn-outline-light" data-action="reset" title="{{#str}}accessibility:resetsitecolor, theme_moove{{/str}}" id="sitecolor_color1">R</button>
+                    <button type="button" class="btn btn-sm btn-outline-light" data-action="sitecolor-color-2" title="{{#str}}accessibility:sitecolor2, theme_moove{{/str}}" id="sitecolor_color2">A</button>
+                    <button type="button" class="btn btn-sm btn-outline-light" data-action="sitecolor-color-3" title="{{#str}}accessibility:sitecolor3, theme_moove{{/str}}" id="sitecolor_color3">A</button>
+                    <button type="button" class="btn btn-sm btn-outline-light" data-action="sitecolor-color-4" title="{{#str}}accessibility:sitecolor4, theme_moove{{/str}}" id="sitecolor_color4">A</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{#js}}
+    require(['theme_moove/accessibilitybar'], function(AccessibilityBar) {
+        AccessibilityBar.init();
+    });
+{{/js}}

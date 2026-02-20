@@ -1,0 +1,47 @@
+{{> theme_moove/head }}
+
+<body {{{ bodyattributes }}}>
+{{> core/local/toast/wrapper}}
+
+<div id="page-wrapper">
+
+    {{{ output.standard_top_of_body_html }}}
+    
+    {{> theme_moove/navbar }}
+
+    <div id="page" class="container-fluid mt-0">
+        <div id="page-content" class="row">
+            <div id="region-main-box" class="col-12">
+                <section id="region-main" class="col-12 h-100" aria-label="{{#str}}content{{/str}}">
+                    <div class="login-wrapper">
+                        <div class="login-container">
+                            <div class="login-header-banner">
+                                {{# output.should_display_logo }}
+                                    <img src="{{output.get_logo}}" alt="{{sitename}}">
+                                {{/ output.should_display_logo }}
+                                {{^ output.should_display_logo }}
+                                    <!-- Fallback logo representation -->
+                                    <i class="fa fa-university fa-3x mb-3" style="color: #d4af37;"></i>
+                                {{/ output.should_display_logo }}
+                                <h2>Campus Virtual</h2>
+                                <p>PROVINCIA DE BUENOS AIRES</p>
+                            </div>
+                            <div class="login-form-body">
+                                {{{ output.main_content }}}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{> theme_moove/footer }}
+
+</body>
+</html>
+
+{{#js}}
+    require(['theme_boost/loader']);
+{{/js}}

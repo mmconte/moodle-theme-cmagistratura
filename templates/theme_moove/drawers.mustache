@@ -1,0 +1,225 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_moove/drawers
+
+    Boost drawer template.
+
+    Context variables required for this template:
+    * sitename - The name of the site
+    * output - The core renderer for the page
+    * bodyattributes - attributes for the body tag as a string of html attributes
+    * sidepreblocks - HTML for the blocks
+    * hasblocks - true if there are blocks on this page
+    * courseindexopen - true if the nav drawer should be open on page load
+    * regionmainsettingsmenu - HTML for the region main settings menu
+    * hasregionmainsettingsmenu - There is a region main settings menu on this page.
+
+    Example context (json):
+    {
+        "sitename": "Moodle",
+        "output": {
+            "doctype": "<!DOCTYPE html>",
+            "page_title": "Test page",
+            "favicon": "favicon.ico",
+            "main_content": "<h1>Headings make html validators happier</h1>"
+         },
+        "bodyattributes":"",
+        "sidepreblocks": "<h2>Blocks html goes here</h2>",
+        "hasblocks":true,
+        "courseindexopen": true,
+        "navdraweropen": false,
+        "blockdraweropen": true,
+        "regionmainsettingsmenu": "",
+        "hasregionmainsettingsmenu": false,
+        "addblockbutton": ""
+    }
+}}
+{{> theme_moove/head }}
+
+<body {{{ bodyattributes }}}>
+{{> theme_moove/accessibilitybar }}
+
+{{> core/local/toast/wrapper}}
+<div id="page-wrapper" class="d-print-block">
+
+    {{{ output.standard_top_of_body_html }}}
+
+    {{> theme_moove/navbar }}
+
+    {{#courseindex}}
+        {{< theme_boost/drawer }}
+            {{$id}}theme_boost-drawers-courseindex{{/id}}
+            {{$drawerclasses}}drawer drawer-left {{#courseindexopen}}show{{/courseindexopen}}{{/drawerclasses}}
+            {{$drawercontent}}
+                {{{courseindex}}}
+            {{/drawercontent}}
+            {{$drawerpreferencename}}drawer-open-index{{/drawerpreferencename}}
+            {{$drawerstate}}show-drawer-left{{/drawerstate}}
+            {{$tooltipplacement}}right{{/tooltipplacement}}
+            {{$closebuttontext}}{{#str}}closecourseindex, core{{/str}}{{/closebuttontext}}
+        {{/ theme_boost/drawer}}
+    {{/courseindex}}
+    {{! Se eliminó el cajón de bloques derecho a petición del usuario }}
+    <div id="page" data-region="mainpage" data-usertour="scroller" class="drawers {{#courseindexopen}}show-drawer-left{{/courseindexopen}} {{#blockdraweropen}}show-drawer-right{{/blockdraweropen}} drag-container">
+
+        <!-- Custom Fixed Left Sidebar for Desktop -->
+        <style>
+            @media (min-width: 992px) {
+                #page {
+                    margin-left: 280px !important;
+                    width: calc(100% - 280px) !important;
+                }
+                body.path-my .main-inner,
+                body.path-my #region-main-box {
+                    max-width: none !important;
+                    width: auto !important;
+                    margin-left: 2rem !important;
+                    margin-right: 2rem !important;
+                }
+                body.path-my .dashboard-card-deck:not(.fixed-width-cards) {
+                    display: grid !important;
+                    grid-template-columns: repeat(4, 1fr) !important;
+                    grid-gap: 1.5rem !important;
+                }
+                body.path-my .dashboard-card-deck:not(.fixed-width-cards) .dashboard-card {
+                    width: 100% !important;
+                    max-width: none !important;
+                    margin: 0 !important;
+                    flex: none !important;
+                }
+                body.path-my .dashboard-card .card-body .coursename,
+                body.path-my .dashboard-card .card-body .card-title {
+                    font-size: 0.95rem !important;
+                    line-height: 1.3 !important;
+                }
+            }
+        </style>
+        <div class="cm-custom-sidebar d-none d-lg-flex flex-column" aria-hidden="true" style="
+            position: fixed;
+            left: 0;
+            top: 72px;
+            width: 280px;
+            height: calc(100vh - 72px);
+            background-color: #fcfcfc;
+            border-right: 1px solid rgba(0,0,0,0.05);
+            z-index: 1040;
+            padding: 16px 0;
+            overflow-y: auto;
+        ">
+            <div class="list-group w-100">
+                <a href="{{{ config.wwwroot }}}/my/" class="list-group-item list-group-item-action border-0 bg-transparent text-dark" style="font-weight: 400 !important; font-size: 0.9rem !important; padding: 12px 24px;">
+                    <i class="fa fa-tachometer mr-3 text-muted" style="width:20px; text-align:center;"></i> Área personal
+                </a>
+                <a href="{{{ config.wwwroot }}}/my/courses.php" class="list-group-item list-group-item-action border-0 bg-transparent text-dark" style="font-weight: 400 !important; font-size: 0.9rem !important; padding: 12px 24px;">
+                    <i class="fa fa-book mr-3 text-muted" style="width:20px; text-align:center;"></i> Mis cursos
+                </a>
+                <a href="{{{ config.wwwroot }}}/calendar/view.php" class="list-group-item list-group-item-action border-0 bg-transparent text-dark" style="font-weight: 400 !important; font-size: 0.9rem !important; padding: 12px 24px;">
+                    <i class="fa fa-calendar mr-3 text-muted" style="width:20px; text-align:center;"></i> Calendario
+                </a>
+                <a href="{{{ config.wwwroot }}}/user/files.php" class="list-group-item list-group-item-action border-0 bg-transparent text-dark" style="font-weight: 400 !important; font-size: 0.9rem !important; padding: 12px 24px;">
+                    <i class="fa fa-folder-o mr-3 text-muted" style="width:20px; text-align:center;"></i> Archivos privados
+                </a>
+            </div>
+
+            <hr style="border-top: 1px solid rgba(0,0,0,0.05); margin: 16px 24px;">
+
+            <div class="px-4 mb-2">
+                <small class="text-uppercase text-muted font-weight-bold" style="letter-spacing: 0.05em; font-size: 0.75rem;">Mis Categorías</small>
+            </div>
+            <div class="list-group w-100">
+                <a href="{{{ config.wwwroot }}}/course/index.php" class="list-group-item list-group-item-action border-0 bg-transparent text-dark" style="font-weight: 400 !important; font-size: 0.9rem !important; padding: 8px 24px 8px 48px;">Derecho Procesal</a>
+                <a href="{{{ config.wwwroot }}}/course/index.php" class="list-group-item list-group-item-action border-0 bg-transparent text-dark" style="font-weight: 400 !important; font-size: 0.9rem !important; padding: 8px 24px 8px 48px;">Ética Judicial</a>
+                <a href="{{{ config.wwwroot }}}/course/index.php" class="list-group-item list-group-item-action border-0 bg-transparent text-dark" style="font-weight: 400 !important; font-size: 0.9rem !important; padding: 8px 24px 8px 48px;">Constitucional</a>
+                <a href="{{{ config.wwwroot }}}/course/index.php" class="list-group-item list-group-item-action border-0 bg-transparent text-dark" style="font-weight: 400 !important; font-size: 0.9rem !important; padding: 8px 24px 8px 48px;">Penal</a>
+            </div>
+
+            <div class="mt-auto p-4 w-100">
+                <a href="{{{ config.wwwroot }}}/user/contacts.php" class="btn btn-block text-white" style="background-color: var(--cm-blue-primary, #1770cf); border-radius: 8px; font-weight: 500;">
+                    <i class="fa fa-life-ring mr-2"></i> Centro de Ayuda
+                </a>
+            </div>
+        </div>
+        <!-- End Custom Fixed Left Sidebar -->
+
+        <div id="topofscroll" class="main-inner">
+            <div class="drawer-toggles d-flex">
+                {{#courseindex}}
+                    <div class="drawer-toggler drawer-left-toggle open-nav d-print-none">
+                        <button
+                            class="btn icon-no-margin"
+                            data-toggler="drawers"
+                            data-action="toggle"
+                            data-target="theme_boost-drawers-courseindex"
+                            data-toggle="tooltip"
+                            data-placement="right"
+                            title="{{#str}}opendrawerindex, core{{/str}}"
+                        >
+                            <span class="sr-only">{{#str}}opendrawerindex, core{{/str}}</span>
+                            {{#pix}} t/index_drawer, moodle {{/pix}}
+                        </button>
+                    </div>
+                {{/courseindex}}
+                {{! Se eliminó el botón del cajón derecho a petición del usuario }}
+            </div>
+
+            <div id="page-content" class="d-print-block">
+                <div id="region-main-box">
+                    {{#hasregionmainsettingsmenu}}
+                    <div id="region-main-settings-menu" class="d-print-none">
+                        <div> {{{ regionmainsettingsmenu }}} </div>
+                    </div>
+                    {{/hasregionmainsettingsmenu}}
+                    <section id="region-main" aria-label="{{#str}}content{{/str}}">
+
+                        {{#hasregionmainsettingsmenu}}
+                            <div class="region_main_settings_menu_proxy"></div>
+                        {{/hasregionmainsettingsmenu}}
+                        {{{ output.course_content_header }}}
+                        {{#headercontent}}
+                            {{> core/activity_header }}
+                        {{/headercontent}}
+                        {{#overflow}}
+                            <div class="container-fluid tertiary-navigation">
+                                <div class="navitem">
+                                    {{> core/url_select}}
+                                </div>
+                            </div>
+                        {{/overflow}}
+                        {{{ output.main_content }}}
+                        {{{ output.activity_navigation }}}
+                        {{{ output.course_content_footer }}}
+
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        {{> theme_moove/footer }}
+    </div>
+    {{{ output.standard_after_main_region_html }}}
+</div>
+
+</body>
+</html>
+{{#js}}
+M.util.js_pending('theme_boost/loader');
+require(['theme_boost/loader', 'theme_boost/drawer'], function(Loader, Drawer) {
+    Drawer.init();
+    M.util.js_complete('theme_boost/loader');
+});
+{{/js}}
